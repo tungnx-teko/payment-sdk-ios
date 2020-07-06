@@ -1,0 +1,22 @@
+{
+  "name": "PaymentSDK",
+  "version": "0.1.0",
+  "summary": "A short description of PaymentSDK.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tungnx-teko/PaymentSDK",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tungnx-teko": "tung.nx@teko.vn"
+  },
+  "source": {
+    "git": "https://github.com/tungnx-teko/PaymentSDK.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "PaymentSDK/Classes/**/*"
+}

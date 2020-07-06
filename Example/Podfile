@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'PaymentSDK_Example' do
+  pod 'PaymentSDK', :path => '../'
+
+  target 'PaymentSDK_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
