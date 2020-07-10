@@ -10,16 +10,10 @@ import PaymentGateway
 public class PaymentSDK {
     
     public struct Config {
-        public static var expireTime: Int                  = 30
+        public static var expireTime: Int                  = 600
     }
 
-    public struct Theme {
-        public static var primaryColor: UIColor            = UIColor(red: 235, green: 31, blue: 58)
-        
-        public static var backButtonImage: UIImage?        = ImagesHelper.imageFor(name: "back")
-        
-        public static var navigationViewHeight: CGFloat    = 56
-        
+    public struct Strings {
         public static var closeButtonTitle: String         = "Đóng"
         public static var cancelButtonTitle: String        = "Huỷ"
         public static var paymentSuccessTitle: String      = "Thanh toán thành công"
@@ -33,6 +27,13 @@ public class PaymentSDK {
         public static var paymentCashMethod: String        = "Tiền mặt"
         public static var totalMoneyTitle: String          = "Tổng tiền"
         public static var resultTitle: String              = "Kết quả giao dịch"
+        public static var sposWaitingResult: String        = "Đang chờ kết quả giao dịch"
+    }
+    
+    public struct Theme {
+        public static var primaryColor: UIColor            = UIColor(red: 235, green: 31, blue: 58)
+        public static var backButtonImage: UIImage?        = ImagesHelper.imageFor(name: "ic_back")
+        public static var navigationViewHeight: CGFloat    = 56
     }
     
 }
@@ -42,26 +43,26 @@ public extension PaymentMethod {
     var name: String {
         switch self {
         case .card:
-            return PaymentSDK.Theme.paymentCTTMethod
+            return PaymentSDK.Strings.paymentCTTMethod
         case .qr:
-            return PaymentSDK.Theme.paymentQRMethod
+            return PaymentSDK.Strings.paymentQRMethod
         case .cash:
-            return PaymentSDK.Theme.paymentCashMethod
+            return PaymentSDK.Strings.paymentCashMethod
         case .spos:
-            return PaymentSDK.Theme.paymentSPOSMethod
+            return PaymentSDK.Strings.paymentSPOSMethod
         }
     }
     
     var iconName: String {
         switch self {
         case .cash:
-            return "cash"
+            return "ic_cash"
         case .card:
-            return "card"
+            return "ic_card"
         case .spos:
-            return "spos"
+            return "ic_spos"
         case .qr:
-            return "qr"
+            return "ic_qr"
         }
     }
     

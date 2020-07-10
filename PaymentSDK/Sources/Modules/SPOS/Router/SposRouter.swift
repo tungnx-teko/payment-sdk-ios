@@ -1,21 +1,20 @@
 //
-//  PaymentQRRouter.swift
+//  SposRouter.swift
 //  Pods
 //
-//  Created by Tung Nguyen on 7/2/20.
+//  Created by Tung Nguyen on 7/6/20.
 //
 
-import UIKit
 import PaymentGateway
 
-class PaymentQRRouter: PaymentQRRouterProtocol {
+class SposRouter: SposRouterProtocol {
     
     weak var viewController: UIViewController?
     
     static func createModule(transaction: Transaction, request: PaymentRequest) -> UIViewController {
-        let view = PaymentQRViewController()
-        let router = PaymentQRRouter()
-        let presenter = PaymentQRPresenter(view: view, router: router, transaction: transaction, request: request)
+        let view = SposViewController()
+        let router = SposRouter()
+        let presenter = SposPresenter(view: view, router: router, transaction: transaction, request: request)
         
         view.presenter = presenter
         router.viewController = view

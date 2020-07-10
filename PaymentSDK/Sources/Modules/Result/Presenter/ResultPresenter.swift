@@ -7,7 +7,7 @@
 
 import PaymentGateway
 
-typealias PaymentResult = Result<PaymentTransactionResult, PaymentError>
+public typealias PaymentResult = Result<PaymentTransactionResult, PaymentError>
 
 class ResultPresenter: ResultPresenterProtocol {
     
@@ -28,12 +28,7 @@ class ResultPresenter: ResultPresenterProtocol {
     }
     
     func handleClose() {
-        switch result {
-        case .success(let transaction):
-            delegate?.didSuccess(transaction)
-        case .failure(let error):
-            delegate?.didFailure(error)
-        }
+        delegate?.onResult(result)
     }
     
 }

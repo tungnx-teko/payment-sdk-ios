@@ -18,6 +18,7 @@ protocol PaymentQRViewProtocol: class {
     var presenter: PaymentQRPresenterProtocol? { get }
     
     func showTime(interval: Int)
+    func showAmount(amount: Double)
 }
 
 protocol PaymentQRRouterProtocol: class {

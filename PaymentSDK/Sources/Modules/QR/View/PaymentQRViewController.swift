@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PaymentGateway
 
 class PaymentQRViewController: UIViewController, PaymentQRViewProtocol {
     
@@ -18,7 +19,7 @@ class PaymentQRViewController: UIViewController, PaymentQRViewProtocol {
     
     let totalTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Tổng tiền"
+        label.text = PaymentSDK.Strings.totalMoneyTitle
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +28,7 @@ class PaymentQRViewController: UIViewController, PaymentQRViewProtocol {
     
     let totalValueLabel: UILabel = {
         let label = UILabel()
-        label.text = "59.000 đ"
+        label.text = "0 đ"
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = UIColor(red: 235, green: 31, blue: 58)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +37,7 @@ class PaymentQRViewController: UIViewController, PaymentQRViewProtocol {
     
     let qrFrameImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = ImagesHelper.imageFor(name: "qr_frame")
+        imageView.image = ImagesHelper.imageFor(name: "ic_qr_frame")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -73,7 +74,7 @@ class PaymentQRViewController: UIViewController, PaymentQRViewProtocol {
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "09:23"
+        label.text = "00:00"
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +97,7 @@ class PaymentQRViewController: UIViewController, PaymentQRViewProtocol {
         presenter?.viewDidLoad()
         view.backgroundColor = .white
         addSubviews()
-        guard let qrContent = presenter?.transaction.qrContent else { return }
+        guard let qrContent = (presenter?.transaction as? QRTransaction)?.qrContent else { return }
         qrImageView.image = ImagesHelper.generateQRCode(from: qrContent)
     }
 
@@ -195,6 +196,10 @@ extension PaymentQRViewController {
     
     func showTime(interval: Int) {
         timeLabel.text = String.init(format: "%02d:%02d", interval / 60, interval % 60)
+    }
+    
+    func showAmount(amount: Double) {
+        totalValueLabel.text = amount.toCurrencyString()
     }
     
 }

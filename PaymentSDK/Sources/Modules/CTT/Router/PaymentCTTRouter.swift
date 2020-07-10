@@ -12,7 +12,7 @@ class PaymentCTTRouter: PaymentCTTRouterProtocol {
     
     weak var viewController: UIViewController?
     
-    static func createModule(transaction: Transaction) -> UIViewController {
+    static func createModule(transaction: Transaction, request: PaymentRequest) -> UIViewController {
         let view = PaymentCTTViewController()
         let router = PaymentCTTRouter()
         let presenter = PaymentCTTPresenter(view: view, router: router, transaction: transaction)

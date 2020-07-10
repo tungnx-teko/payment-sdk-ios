@@ -62,6 +62,11 @@ class PaymentMethodsViewController: UIViewController, PaymentMethodsViewProtocol
         
         addSubviews()
         setupNavigation()
+        presenter?.viewDidLoad()
+    }
+    
+    func showAmount(_ amount: Double) {
+        totalValueLabel.text = amount.toCurrencyString()
     }
     
     func setupNavigation() {

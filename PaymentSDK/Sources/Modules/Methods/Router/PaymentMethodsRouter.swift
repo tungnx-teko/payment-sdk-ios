@@ -12,7 +12,7 @@ class PaymentMethodsRouter: PaymentMethodsRouterProtocol {
     
     weak var viewController: UIViewController?
     
-    static func createModule(request: BasePaymentRequest) -> UIViewController {
+    static func createModule(request: PaymentRequest) -> UIViewController {
         let view = PaymentMethodsViewController()
         let router = PaymentMethodsRouter()
         let presenter = PaymentMethodsPresenter(view: view, router: router, request: request)
@@ -23,23 +23,23 @@ class PaymentMethodsRouter: PaymentMethodsRouterProtocol {
         return view
     }
     
-    func goToQRPayment(transaction: Transaction) {
-        let paymentQR = PaymentQRRouter.createModule(transaction: transaction)
+    func goToQRPayment(transaction: Transaction, request: PaymentRequest) {
+        let paymentQR = PaymentQRRouter.createModule(transaction: transaction, request: request)
         viewController?.navigationController?.show(paymentQR, sender: nil)
     }
     
-    func goToCTTPayment(transaction: Transaction) {
-        let paymentCTT = PaymentCTTRouter.createModule(transaction: transaction)
+    func goToCTTPayment(transaction: Transaction, request: PaymentRequest) {
+        let paymentCTT = PaymentCTTRouter.createModule(transaction: transaction, request: request)
         viewController?.navigationController?.show(paymentCTT, sender: nil)
     }
     
-    func goToSposPayment(transaction: Transaction) {
-        let paymentSpos = PaymentQRRouter.createModule(transaction: transaction)
+    func goToSposPayment(transaction: Transaction, request: PaymentRequest) {
+        let paymentSpos = SposRouter.createModule(transaction: transaction, request: request)
         viewController?.navigationController?.show(paymentSpos, sender: nil)
     }
     
-    func goToCashPayment(transaction: Transaction) {
-        let paymentCash = PaymentCTTRouter.createModule(transaction: transaction)
+    func goToCashPayment(transaction: Transaction, request: PaymentRequest) {
+        let paymentCash = PaymentCTTRouter.createModule(transaction: transaction, request: request)
         viewController?.navigationController?.show(paymentCash, sender: nil)
     }
     

@@ -9,9 +9,8 @@ import Foundation
 import PaymentGateway
 
 public protocol PaymentDelegate: class {
-    func didSuccess(transaction: PaymentTransactionResult)
-    func didFailure(error: PaymentError)
-    func didCancel()
+    func onResult(_ result: PaymentResult)
+    func onCancel()
 }
 
 class PaymentPresenter: PaymentPresenterProtocol {
@@ -21,13 +20,23 @@ class PaymentPresenter: PaymentPresenterProtocol {
     weak var view: PaymentViewProtocol?
     var router: PaymentRouterProtocol?
     weak var delegate: PaymentDelegate?
-    let request: BasePaymentRequest
+    let request: PaymentRequest
     
-    init(view: PaymentViewProtocol, router: PaymentRouterProtocol?, request: BasePaymentRequest, delegate: PaymentDelegate?) {
+    init(view: PaymentViewProtocol, router: PaymentRouterProtocol?, request: PaymentRequest, delegate: PaymentDelegate?) {
         self.view = view
         self.router = router
         self.delegate = delegate
         self.request = request
+    }
+    
+    func onResult(_ result: PaymentResult) {
+        delegate?.onResult(result)
+        router?.close()
+    }
+    
+    func handleCancel() {
+        delegate?.onCancel()
+        router?.close()
     }
     
 }

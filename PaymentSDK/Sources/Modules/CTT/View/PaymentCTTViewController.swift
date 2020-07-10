@@ -35,7 +35,7 @@ class PaymentCTTViewController: UIViewController, PaymentCTTViewProtocol {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        title = PaymentSDK.Theme.paymentCTTMethod
+        title = PaymentSDK.Strings.paymentCTTMethod
     }
     
     required init?(coder: NSCoder) {

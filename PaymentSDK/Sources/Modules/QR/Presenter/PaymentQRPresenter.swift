@@ -13,23 +13,26 @@ class PaymentQRPresenter: PaymentQRPresenterProtocol, PaymentMethodPresenterProt
     weak var view: PaymentQRViewProtocol?
     var router: PaymentQRRouterProtocol?
     let transaction: Transaction
+    let request: PaymentRequest
     var method: PaymentMethod = .qr
     
-    var observer: PaymentObserver
+    var observer: PaymentObserver = PaymentObserver()
     
     var timer: Timer!
-    var timeLeft: Int = PaymentSDK.Config.expireTime
+    var timeLeft: Int
     
-    init(view: PaymentQRViewProtocol, router: PaymentQRRouterProtocol?, transaction: Transaction) {
+    init(view: PaymentQRViewProtocol, router: PaymentQRRouterProtocol?, transaction: Transaction, request: PaymentRequest) {
         self.view = view
         self.router = router
         self.transaction = transaction
-        self.observer = PaymentObserver()
+        self.request = request
+        self.timeLeft = request.expireTime
         self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(1.0), target: self, selector: #selector(onTimeFire), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)
     }
     
     func viewDidLoad() {
+        view?.showAmount(amount: request.amount)
         observeTransaction(transactionCode: transaction.code) { [weak self] result in
             self?.router?.goToResult(result)
         }

@@ -18,7 +18,7 @@ class ResultViewController: UIViewController, ResultViewProtocol {
     let closeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(PaymentSDK.Theme.closeButtonTitle, for: .normal)
+        button.setTitle(PaymentSDK.Strings.closeButtonTitle, for: .normal)
         button.backgroundColor = PaymentSDK.Theme.primaryColor
         button.cornerRadius = 8
         button.addTarget(self, action: #selector(closeButtonWasTapped), for: .touchUpInside)
@@ -55,7 +55,7 @@ class ResultViewController: UIViewController, ResultViewProtocol {
     
     func setupNavigationView() {
         guard let paymentVC = navigationController?.parent as? PaymentViewController else { return }
-        paymentVC.titleLabel.text = PaymentSDK.Theme.resultTitle
+        paymentVC.titleLabel.text = PaymentSDK.Strings.resultTitle
         paymentVC.cancelButton.isHidden = true
         paymentVC.backButton.isHidden = true
     }
@@ -68,17 +68,17 @@ class ResultViewController: UIViewController, ResultViewProtocol {
     func showResult(_ result: PaymentResult) {
         switch result {
         case .success(let transaction):
-            iconImage.image = ImagesHelper.imageFor(name: "success")
-            resultLabel.text = PaymentSDK.Theme.paymentSuccessTitle
+            iconImage.image = ImagesHelper.imageFor(name: "ic_success")
+            resultLabel.text = PaymentSDK.Strings.paymentSuccessTitle
             let attributedText = NSMutableAttributedString()
             let grayStyle: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.darkGray, .font: UIFont.systemFont(ofSize: 14)]
-            attributedText.append(NSAttributedString(string: PaymentSDK.Theme.transactionCodeTitle, attributes: grayStyle))
+            attributedText.append(NSAttributedString(string: PaymentSDK.Strings.transactionCodeTitle, attributes: grayStyle))
             let defaultStyle: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.black, .font: UIFont.systemFont(ofSize: 14)]
             attributedText.append(NSAttributedString(string: "#" + (transaction.transactionId ?? ""), attributes: defaultStyle))
             detailLabel.attributedText = attributedText
         case .failure:
-            iconImage.image = ImagesHelper.imageFor(name: "fail")
-            resultLabel.text = PaymentSDK.Theme.paymentFailureTitle
+            iconImage.image = ImagesHelper.imageFor(name: "ic_fail")
+            resultLabel.text = PaymentSDK.Strings.paymentFailureTitle
         }
     }
     

@@ -29,20 +29,22 @@ public class PaymentViewController: UIViewController, PaymentViewProtocol {
         button.setImage(PaymentSDK.Theme.backButtonImage, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.imageEdgeInsets = .zero
+        button.addTarget(self, action: #selector(backButtonWasTapped), for: .touchUpInside)
         return button
     }()
     
     let cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle(PaymentSDK.Theme.cancelButtonTitle, for: .normal)
+        button.setTitle(PaymentSDK.Strings.cancelButtonTitle, for: .normal)
         button.titleLabel?.textAlignment = .right
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(cancelWasTapped), for: .touchUpInside)
         return button
     }()
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = PaymentSDK.Theme.paymentMethodsTitle
+        label.text = PaymentSDK.Strings.paymentMethodsTitle
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -61,6 +63,7 @@ public class PaymentViewController: UIViewController, PaymentViewProtocol {
         setupStatusBar()
         addSubviews()
         addChildNavigation()
+        reloadBackButton()
     }
     
     func setupStatusBar() {
@@ -72,7 +75,7 @@ public class PaymentViewController: UIViewController, PaymentViewProtocol {
     
     @objc
     func cancelWasTapped() {
-        navigationController?.dismiss(animated: true, completion: nil)
+        presenter?.handleCancel()
     }
     
     @objc
@@ -82,7 +85,7 @@ public class PaymentViewController: UIViewController, PaymentViewProtocol {
         }
     }
     
-    func setupBackButton() {
+    func reloadBackButton() {
         backButton.isHidden = !childNav.canGoBack
     }
     
@@ -171,30 +174,24 @@ extension PaymentViewController: PaymentNavigationDelegate {
     
     func didShowViewController(_ vc: UIViewController) {
         titleLabel.text = vc.title
-        setupBackButton()
+        reloadBackButton()
     }
     
     func didPop() {
         if childNav?.canGoBack ?? false {
             titleLabel.text = childNav?.viewControllers.last?.title
         } else {
-            titleLabel.text = PaymentSDK.Theme.paymentMethodsTitle
+            titleLabel.text = PaymentSDK.Strings.paymentMethodsTitle
         }
-        setupBackButton()
+        reloadBackButton()
     }
     
 }
 
 extension PaymentViewController: PaymentMethodDelegate {
     
-    func didSuccess(_ transaction: PaymentTransactionResult) {
-        if let nav = navigationController {
-            nav.popViewController(animated: true)
-        }
-    }
-    
-    func didFailure(_ error: PaymentError) {
-        
+    func onResult(_ result: PaymentResult) {
+        presenter?.onResult(result)
     }
     
 }

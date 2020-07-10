@@ -9,7 +9,10 @@ import Foundation
 import PaymentGateway
 
 protocol PaymentPresenterProtocol: class {
-    var request: BasePaymentRequest { get }
+    var request: PaymentRequest { get }
+    
+    func onResult(_ result: PaymentResult)
+    func handleCancel()
 }
 
 protocol PaymentViewProtocol: class {
@@ -17,5 +20,5 @@ protocol PaymentViewProtocol: class {
 }
 
 protocol PaymentRouterProtocol: class {
-    
+    func close()
 }

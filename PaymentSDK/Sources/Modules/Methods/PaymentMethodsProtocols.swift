@@ -9,24 +9,24 @@ import Foundation
 import PaymentGateway
 
 protocol PaymentMethodDelegate: class {
-    func didSuccess(_ transaction: PaymentTransactionResult)
-    func didFailure(_ error: PaymentError)
+    func onResult(_ result: PaymentResult)
 }
 
 protocol PaymentMethodsViewProtocol: class {
     var presenter: PaymentMethodsPresenterProtocol? { get }
-    
+    func showAmount(_ amount: Double)
     func showLoading()
     func hideLoading()
 }
 
 protocol PaymentMethodsPresenterProtocol: class {
+    func viewDidLoad()
     func didSelectPaymentMethod(method: PaymentMethod)
 }
 
 protocol PaymentMethodsRouterProtocol: class {
-    func goToQRPayment(transaction: Transaction)
-    func goToCTTPayment(transaction: Transaction)
-    func goToSposPayment(transaction: Transaction)
-    func goToCashPayment(transaction: Transaction)
+    func goToQRPayment(transaction: Transaction, request: PaymentRequest)
+    func goToCTTPayment(transaction: Transaction, request: PaymentRequest)
+    func goToSposPayment(transaction: Transaction, request: PaymentRequest)
+    func goToCashPayment(transaction: Transaction, request: PaymentRequest)
 }

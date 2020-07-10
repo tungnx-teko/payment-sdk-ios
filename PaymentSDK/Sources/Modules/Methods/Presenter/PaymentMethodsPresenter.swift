@@ -12,11 +12,11 @@ class PaymentMethodsPresenter: PaymentMethodsPresenterProtocol {
     
     weak var view: PaymentMethodsViewProtocol?
     var router: PaymentMethodsRouterProtocol?
-    let request: BasePaymentRequest
+    let request: PaymentRequest
     
     lazy var gateway = PaymentGateway.shared
     
-    init(view: PaymentMethodsViewProtocol, router: PaymentMethodsRouterProtocol?, request: BasePaymentRequest) {
+    init(view: PaymentMethodsViewProtocol, router: PaymentMethodsRouterProtocol?, request: PaymentRequest) {
         self.view = view
         self.router = router
         self.request = request
@@ -32,13 +32,13 @@ class PaymentMethodsPresenter: PaymentMethodsPresenterProtocol {
                 case .success(let transaction):
                     switch method {
                     case .card:
-                        self.router?.goToCTTPayment(transaction: transaction)
+                        self.router?.goToCTTPayment(transaction: transaction, request: self.request)
                     case .cash:
-                        self.router?.goToCashPayment(transaction: transaction)
+                        self.router?.goToCashPayment(transaction: transaction, request: self.request)
                     case .qr:
-                        self.router?.goToQRPayment(transaction: transaction)
+                        self.router?.goToQRPayment(transaction: transaction, request: self.request)
                     case .spos:
-                        self.router?.goToSposPayment(transaction: transaction)
+                        self.router?.goToSposPayment(transaction: transaction, request: self.request)
                     }
                 case .failure:
                     print("PAYMENT-- FAIL CMNR")
@@ -47,6 +47,10 @@ class PaymentMethodsPresenter: PaymentMethodsPresenterProtocol {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func viewDidLoad() {
+        view?.showAmount(request.amount)
     }
     
 }
